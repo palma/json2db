@@ -340,6 +340,7 @@ class CommonModel(JModel):
             db_type = type(db_type)
         db_type_name = self.type_helper.get_name(db_type)
         need_type = PYTHON_TYPE_NAME[db_type_name]
+        
         if current_type == need_type:
             new_value = value
         else:
@@ -356,7 +357,13 @@ class CommonModel(JModel):
         obj = dict() if is_convert else self.db_models[model.name]()
         for path, v in model.brothers.items():
             # foreign has same scope with brother
-            new_scope = scope if scope_is_pressed else scope[path]
+            try:
+                new_scope = scope if scope_is_pressed else scope[path]
+            except:
+                print("Item '{}' was not found in the current scope; continue with next item".format(k))
+                continue
+
+            #new_scope = scope if scope_is_pressed else scope[path]
             n_v = self.init_root(v, new_scope, debug=debug,
                                  scope_is_pressed=scope_is_pressed,
                                  is_convert=is_convert)
@@ -398,7 +405,11 @@ class CommonModel(JModel):
                 self.set_field(obj, v.name, scope.get(path), v)
 
         for k, v in model.sons.items():
-            sons = scope[k]
+            try:
+              sons = scope[k]
+            except:
+                print("Item '{}' was not found in the current scope; continue with next item".format(k))
+                continue
             _sons = []
             for sc in sons:
                 n_v = self.init_root(v, sc, debug=debug, scope_is_pressed=scope_is_pressed, is_convert=is_convert)
