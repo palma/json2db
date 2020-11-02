@@ -360,7 +360,7 @@ class CommonModel(JModel):
             try:
                 new_scope = scope if scope_is_pressed else scope[path]
             except:
-                print("Item '{}' was not found in the current scope; continue with next item".format(k))
+                print("Item '{}' was not found in the current scope; continue with next item".format(path))
                 continue
 
             #new_scope = scope if scope_is_pressed else scope[path]
