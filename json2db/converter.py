@@ -35,7 +35,7 @@ def delete_scope_info(value: dict) -> dict:
 
 
 def dict2str(v: dict) -> str:
-    return json.dumps(delete_scope_info(v))
+    return json.dumps((v)) # removed call to delete_scope_info()
 
 
 def list2str(v: list) -> str:

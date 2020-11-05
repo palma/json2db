@@ -164,7 +164,7 @@ class CommonModelFactory(Factory):
                                                        current_depth=current_depth + 1)
             elif isinstance(v, list):
                 if len(v) == 0:
-                    raise FrameworkNotSupport(f"Not Support No Value in Array of field:{k}")
+                    raise FrameworkNotSupport(f"Not Support No Value in Array of field:{k}")                    
                 elif isinstance(v[0], dict):
                     if 0 <= max_depth <= current_depth:
                         root.fields[k] = self.add_field(k, "json object", "auto compressed")
@@ -363,7 +363,6 @@ class CommonModel(JModel):
                 print("Item '{}' was not found in the current scope; continue with next item".format(path))
                 continue
 
-            #new_scope = scope if scope_is_pressed else scope[path]
             n_v = self.init_root(v, new_scope, debug=debug,
                                  scope_is_pressed=scope_is_pressed,
                                  is_convert=is_convert)
