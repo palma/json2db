@@ -617,3 +617,14 @@ class CommonModel(JModel):
         self.init_all_models()
         engine = self.engine if engine is None else engine
         self.Base.metadata.drop_all(bind=engine)
+
+    def clear_tables_in_db(self, engine: Optional[object] = None):
+        self.init_all_models()
+        engine = self.engine if engine is None else engine
+
+        session = sessionmaker(bind=engine)()
+        for table in reversed(self.Base.metadata.sorted_tables):
+            print("Clear table {}".format(table))
+            session.execute(table.delete())
+        session.commit()
+        session.close()
