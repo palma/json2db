@@ -360,7 +360,7 @@ class CommonModel(JModel):
             try:
                 new_scope = scope if scope_is_pressed else scope[path]
             except:
-                print("Item '{}' was not found in the current scope; continue with next item".format(path))
+                #print("Item '{}' was not found in the current scope; continue with next item".format(path))
                 continue
 
             n_v = self.init_root(v, new_scope, debug=debug,
@@ -407,7 +407,7 @@ class CommonModel(JModel):
             try:
               sons = scope[k]
             except:
-                print("Item '{}' was not found in the current scope; continue with next item".format(k))
+                # print("Item '{}' was not found in the current scope; continue with next item".format(k))
                 continue
             _sons = []
             for sc in sons:
@@ -487,7 +487,6 @@ class CommonModel(JModel):
             tb_name = table_name if len(s) == 1 else self.get_search_table(s[-2])
             tb_attr = self.get_search_field(tb_name, s[-1])
             query = query.filter(getattr(self.db_models[tb_name], tb_attr) == v)
-        # print("total query", query.count())
         query = query.order_by(getattr(self.db_models[table_name], self.factory.primary_key).desc()).limit(limit)
         rlt = []
         for d in query.all():
@@ -624,7 +623,6 @@ class CommonModel(JModel):
 
         session = sessionmaker(bind=engine)()
         for table in reversed(self.Base.metadata.sorted_tables):
-            print("Clear table {}".format(table))
             session.execute(table.delete())
         session.commit()
         session.close()
